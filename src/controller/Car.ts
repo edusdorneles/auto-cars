@@ -57,7 +57,7 @@ export const updateCar = (req: Request, res: Response) => {
     const { name, year, color, price } = req.body;
     const cars: Car[] = listCars();
 
-    let carIndex: number = cars.findIndex(
+    const carIndex: number = cars.findIndex(
         (car: Car) => car.id === req.params.id
     );
 
@@ -90,4 +90,20 @@ export const updateCar = (req: Request, res: Response) => {
     };
 
     res.status(200).json(cars[carIndex]);
+};
+
+export const deleteCar = (req: Request, res: Response) => {
+    const cars: Car[] = listCars();
+
+    const carIndex: number = cars.findIndex(
+        (car: Car) => car.id === req.params.id
+    );
+
+    if (carIndex === -1) {
+        res.status(404).json({ msg: "Car not found" });
+    }
+
+    cars.splice(carIndex, 1);
+
+    res.status(200).json({ msg: "Car deleted" });
 };
