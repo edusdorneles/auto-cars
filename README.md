@@ -11,9 +11,9 @@
 
 ---
 
-<!-- <a href="https://dududornelees.com.br/">
+<a href="https://dududornelees.com.br/">
     <img alt="CRUD - Auto Cars" title="CRUD - Auto Cars" src="./github/AutoCars.gif" width="100%" />
-</a> -->
+</a>
 
 <h3 id="pre-requisitos">Pré-Requisitos</h3>
 Antes de começar, você vai precisar ter instalado em sua máquina as seguinte ferramentas: <a href="https://git-scm.com" target="_blank">Git</a>, <a href="https://nodejs.org/en/" target="_blank">Node.js</a>. <br>
