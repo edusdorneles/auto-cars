@@ -1,18 +1,23 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
-import { listCars } from "../service/Car";
+import {
+    queryListCars,
+    queryFindCarById,
+    queryAddCar,
+    queryUpdateCar,
+    queryDeleteCar,
+} from "../service/Car";
 
 // Types
 import Car from "../@types/Car";
 
 export const getAllCars = (req: Request, res: Response) => {
-    const cars: Car[] = listCars();
+    const cars: Car[] = queryListCars();
     res.status(200).json(cars);
 };
 
 export const getCarById = (req: Request, res: Response) => {
-    const car: Car[] = listCars();
-    const foundCar = car.find((car: Car) => car.id === req.params.id);
+    const foundCar = queryFindCarById(req.params.id);
 
     if (!foundCar) {
         res.status(404).json({ msg: "Car not found" });
@@ -23,7 +28,6 @@ export const getCarById = (req: Request, res: Response) => {
 
 export const addCar = (req: Request, res: Response) => {
     const { name, year, color, price } = req.body;
-    const cars: Car[] = listCars();
 
     if (!name) {
         res.status(400).json({ msg: "Name is required" });
@@ -41,29 +45,20 @@ export const addCar = (req: Request, res: Response) => {
         res.status(400).json({ msg: "Price is required" });
     }
 
-    const newCar: Car = {
+    const newCar = queryAddCar({
         id: uuidv4(),
         name,
         year,
         color,
         price,
-    };
+    });
 
-    cars.push(newCar);
     res.json(newCar);
 };
 
 export const updateCar = (req: Request, res: Response) => {
+    const { id } = req.params;
     const { name, year, color, price } = req.body;
-    const cars: Car[] = listCars();
-
-    const carIndex: number = cars.findIndex(
-        (car: Car) => car.id === req.params.id
-    );
-
-    if (carIndex === -1) {
-        res.status(404).json({ msg: "Car not found" });
-    }
 
     if (!name) {
         res.status(400).json({ msg: "Name is required" });
@@ -81,29 +76,21 @@ export const updateCar = (req: Request, res: Response) => {
         res.status(400).json({ msg: "Price is required" });
     }
 
-    cars[carIndex] = {
-        id: req.params.id,
+    const updatedCar = queryUpdateCar({
+        id,
         name,
         year,
         color,
         price,
-    };
+    });
 
-    res.status(200).json(cars[carIndex]);
+    res.status(200).json(updatedCar);
 };
 
 export const deleteCar = (req: Request, res: Response) => {
-    const cars: Car[] = listCars();
+    const { id } = req.params;
 
-    const carIndex: number = cars.findIndex(
-        (car: Car) => car.id === req.params.id
-    );
-
-    if (carIndex === -1) {
-        res.status(404).json({ msg: "Car not found" });
-    }
-
-    cars.splice(carIndex, 1);
+    queryDeleteCar(id);
 
     res.status(200).json({ msg: "Car deleted" });
 };
