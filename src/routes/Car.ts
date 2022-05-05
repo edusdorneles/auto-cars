@@ -1,11 +1,13 @@
 import { Router } from "express";
 
+import { getAllCars } from "../controller/Car";
+
 const carRouter = Router();
 
-carRouter.get("/cars");
-carRouter.get("/cars/:id");
-carRouter.post("/cars");
-carRouter.put("/cars/:id");
-carRouter.delete("/cars/:id");
+carRouter.get("/", getAllCars);
+carRouter.get("/:id");
+carRouter.post("");
+carRouter.put("/:id");
+carRouter.delete("/:id");
 
 export default carRouter;
