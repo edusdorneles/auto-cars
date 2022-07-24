@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { queryFindUserByEmailAndPassword, prepareUser } from "../service/User";
+import { queryFindUserByEmailAndPassword } from "../service/User";
 
 // Types
 import User from "../@types/User";

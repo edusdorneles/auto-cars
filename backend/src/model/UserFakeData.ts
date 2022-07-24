@@ -1,18 +1,18 @@
 let USER_FAKE_DATA = [
     {
-        id: "52a430f6-e562-499a-8aa0-56a438890f6a",
+        id: "3211fbe7-861e-42dc-a93c-32fe7261f7a0",
         name: "Ramires Fernandes",
         email: "ramiresfernandes@gmail.com",
         password: "123456",
     },
     {
-        id: "4ca68598-9dc2-4b68-9c4c-abb3e4367e61",
+        id: "c13fa8d8-468d-4672-ba44-6331fefdc388",
         name: "Gabriel Vidal",
         email: "gabrielvidal@gmail.com",
         password: "123456",
     },
     {
-        id: "3ae37647-2783-4b1a-b864-f7e119d316b7",
+        id: "ec1c1ebd-3428-43ae-bbc0-822e72b07115",
         name: "Lucas Rodrigues",
         email: "lucasrodrigues@gmail.com",
         password: "123456",

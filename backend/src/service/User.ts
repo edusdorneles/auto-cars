@@ -9,7 +9,9 @@ export const prepareUser = (user: User): User => {
         id: user.id,
         name: user.name,
         email: user.email,
-        token: sign({ id: user.id }, process.env.JWT_SECRET || ""),
+        token: sign({ id: user.id }, process.env.JWT_SECRET || "", {
+            expiresIn: "1h",
+        }),
     };
 };
 
