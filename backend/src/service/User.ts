@@ -18,11 +18,11 @@ export const prepareUser = (user: User): User => {
 export const queryFindUserByEmailAndPassword = (
     email: string,
     password: string
-): User => {
+): User | null => {
     const user = userFakeData.find((user) => user.email === email);
 
     if (!user || user.password !== password) {
-        throw new Error("User not found");
+        return null;
     }
 
     return prepareUser(user);

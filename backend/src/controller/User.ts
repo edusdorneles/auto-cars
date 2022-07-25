@@ -6,6 +6,11 @@ import User from "../@types/User";
 
 export const userLogin = (req: Request, res: Response) => {
     const { email, password } = req.body;
-    const user: User = queryFindUserByEmailAndPassword(email, password);
+    const user: User | null = queryFindUserByEmailAndPassword(email, password);
+
+    if (!user) {
+        return res.status(401).json({ msg: "User not found" });
+    }
+
     res.status(200).json(user);
 };
