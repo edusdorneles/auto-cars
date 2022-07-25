@@ -20,6 +20,12 @@ export const LoginBox = styled(Paper)({
     padding: "20px"
 });
 
+export const LoginImage = styled("img")({
+    width: "100%",
+    maxWidth: "130px",
+    marginBottom: "8px"
+});
+
 export const LoginInput = styled(TextField)({
     marginBottom: "8px"
 });

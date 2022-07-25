@@ -19,18 +19,19 @@ const Login = () => {
         });
     };
 
-    const loginAndSetUserAndNavigate = async () => {
+    const LoginAndSetUser = async () => {
         const response = await API.post("/users", login);
         setUser(response.data);
         setIsAuthenticated(true);
-        navigate("/dashboard");
+        sessionStorage.setItem("@auto-cars:user", JSON.stringify(response.data));
     };
 
     const handleSubmit = async () => {
         setLoading(true);
 
         try {
-            await loginAndSetUserAndNavigate();
+            await LoginAndSetUser();
+            navigate("/dashboard");
         } catch (error: any) {
             setError(error.response.data.msg);
         }
@@ -42,9 +43,7 @@ const Login = () => {
     return (
         <S.LoginContainer>
             <S.LoginBox elevation={6}>
-                <Typography variant="h6" color="primary" marginBottom={1}>
-                    Faça o login
-                </Typography>
+                <S.LoginImage src="/images/autocars-logo.png" alt="AutoCars - Logo" />
 
                 <S.LoginInput
                     fullWidth

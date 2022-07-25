@@ -24,8 +24,14 @@ const initialValue = {
 export const AuthContext = createContext<AuthContextType>(initialValue);
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-    const [user, setUser] = useState(initialValue.user);
-    const [isAuthenticated, setIsAuthenticated] = useState(initialValue.isAuthenticated);
+    const [user, setUser] = useState(
+        sessionStorage.getItem("@auto-cars:user")
+            ? JSON.parse(sessionStorage.getItem("@auto-cars:user") || "")
+            : initialValue.user
+    );
+    const [isAuthenticated, setIsAuthenticated] = useState(
+        sessionStorage.getItem("@auto-cars:user") ? true : initialValue.isAuthenticated
+    );
 
     return (
         <AuthContext.Provider value={{ user, setUser, isAuthenticated, setIsAuthenticated }}>
