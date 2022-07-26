@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Layout } from "components/Layout";
-import { Typography, Table, TableHead, TableBody, TableRow, TableCell, Button } from "@mui/material";
+import { Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
+import { AddCar } from "components/Modals/AddCar";
 import API from "services/API";
 import * as S from "./styles";
 
@@ -9,17 +10,12 @@ const Dashboard = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
+    // Modals
+    const [modalOpenAdd, setModalOpenAdd] = useState(false);
+
     const getCars = async () => {
         const response = await API.get("/cars");
         setCars(response.data);
-    };
-
-    const openEditModal = (carId: string) => {
-        console.log(carId);
-    };
-
-    const openDeleteModal = (carId: string) => {
-        console.log(carId);
     };
 
     useEffect(() => {
@@ -28,7 +24,13 @@ const Dashboard = () => {
 
     return (
         <Layout>
-            <S.AddButton size="small" variant="outlined" color="success" fullWidth>
+            <S.AddButton
+                fullWidth
+                size="small"
+                variant="outlined"
+                color="success"
+                onClick={() => setModalOpenAdd(true)}
+            >
                 Adicionar carro
             </S.AddButton>
 
@@ -56,7 +58,7 @@ const Dashboard = () => {
                                         size="small"
                                         variant="outlined"
                                         color="info"
-                                        onClick={() => openEditModal(car.id)}
+                                        onClick={() => setModalOpenAdd(true)}
                                     >
                                         Editar
                                     </S.TableButton>
@@ -65,7 +67,7 @@ const Dashboard = () => {
                                         size="small"
                                         variant="outlined"
                                         color="error"
-                                        onClick={() => openDeleteModal(car.id)}
+                                        onClick={() => setModalOpenAdd(true)}
                                     >
                                         Excluir
                                     </S.TableButton>
@@ -89,6 +91,8 @@ const Dashboard = () => {
                     setPage(0);
                 }}
             />
+
+            <AddCar modalOpen={modalOpenAdd} setModalOpen={setModalOpenAdd} />
         </Layout>
     );
 };
