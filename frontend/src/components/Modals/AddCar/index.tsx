@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Typography, Button } from "@mui/material";
+import { useDashboardContext } from "providers/DashboardContext";
 import { priceFormat, yearFormat } from "helpers/numberFormat";
 import { addCar } from "services/CarService";
 import * as S from "./styles";
@@ -7,28 +8,25 @@ import * as S from "./styles";
 type Props = {
     modalOpen: boolean;
     setModalOpen: (modalOpen: boolean) => void;
-    getCars: () => Promise<void>;
 };
 
-export const AddCar = ({ modalOpen, setModalOpen, getCars }: Props) => {
+const AddCar = ({ modalOpen, setModalOpen }: Props) => {
+    const { getCars } = useDashboardContext();
     const [values, setValues] = useState<Car>({ name: "", color: "", year: "", price: "" });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
 
-    const resetValuesAndCloseModal = () => {
+    const closeModalAndResetValues = () => {
         setModalOpen(false);
         setValues({ name: "", color: "", year: "", price: "" });
         setError("");
-        setSuccess("");
     };
 
     const getCarsAndCallReset = async () => {
+        setLoading(true);
         await getCars();
-
-        setTimeout(() => {
-            resetValuesAndCloseModal();
-        }, 1000);
+        closeModalAndResetValues();
+        setLoading(false);
     };
 
     const hasError = () => {
@@ -66,14 +64,7 @@ export const AddCar = ({ modalOpen, setModalOpen, getCars }: Props) => {
 
         setLoading(true);
         if (!hasError()) {
-            const response = await addCar(values);
-
-            if (response.status === 200) {
-                setSuccess("Carro adicionado com sucesso.");
-            } else {
-                setError("Ocorreu algum erro.");
-            }
-
+            await addCar(values);
             getCarsAndCallReset();
         }
         setLoading(false);
@@ -134,12 +125,6 @@ export const AddCar = ({ modalOpen, setModalOpen, getCars }: Props) => {
                                 {error}
                             </Typography>
                         )}
-
-                        {success && (
-                            <Typography variant="body2" color="success.main">
-                                {success}
-                            </Typography>
-                        )}
                     </S.ModalAlerts>
 
                     <S.ModalButtons>
@@ -162,3 +147,5 @@ export const AddCar = ({ modalOpen, setModalOpen, getCars }: Props) => {
         </Modal>
     );
 };
+
+export default AddCar;

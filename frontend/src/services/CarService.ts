@@ -7,3 +7,7 @@ export const addCar = async (car: Car) => {
         price: priceFormat(car.price)
     });
 };
+
+export const deleteCar = async (id?: string) => {
+    return await API.delete(`/cars/${id}`);
+};

@@ -1,6 +1,4 @@
-import React, { useState, createContext, useContext, SetStateAction } from "react";
-import { Dispatch } from "react";
-import API from "services/API";
+import React, { useState, createContext, useContext, SetStateAction, Dispatch } from "react";
 
 // Types
 type AuthContextType = {

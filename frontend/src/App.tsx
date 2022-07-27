@@ -1,5 +1,5 @@
 import Routes from "routes";
-import { AuthContextProvider } from "providers/AuthContext";
+import Providers from "providers";
 
 // Styles
 import { ThemeProvider } from "@mui/material";
@@ -8,11 +8,11 @@ import "styles/Global.css";
 
 const App = () => {
     return (
-        <AuthContextProvider>
+        <Providers>
             <ThemeProvider theme={Default}>
                 <Routes />
             </ThemeProvider>
-        </AuthContextProvider>
+        </Providers>
     );
 };
 
