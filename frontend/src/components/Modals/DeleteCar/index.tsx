@@ -11,12 +11,13 @@ type Props = {
 };
 
 const DeleteCar = ({ modalOpen, setModalOpen, carId }: Props) => {
-    const { getCars } = useDashboardContext();
+    const { setAlert, getCars } = useDashboardContext();
     const [loading, setLoading] = useState(false);
 
     const getCarsAndCloseModal = async () => {
-        await getCars();
         setModalOpen(false);
+        setAlert({ open: true, message: "Car deleted successfully", severity: "success" });
+        await getCars();
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -11,22 +11,17 @@ type Props = {
 };
 
 const AddCar = ({ modalOpen, setModalOpen }: Props) => {
-    const { getCars } = useDashboardContext();
+    const { setAlert, getCars } = useDashboardContext();
     const [values, setValues] = useState<Car>({ name: "", color: "", year: "", price: "" });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const closeModalAndResetValues = () => {
+    const getCarsAndResetValues = async () => {
         setModalOpen(false);
         setValues({ name: "", color: "", year: "", price: "" });
+        setAlert({ open: true, message: "Car added successfully", severity: "success" });
         setError("");
-    };
-
-    const getCarsAndCallReset = async () => {
-        setLoading(true);
         await getCars();
-        closeModalAndResetValues();
-        setLoading(false);
     };
 
     const hasError = () => {
@@ -65,7 +60,7 @@ const AddCar = ({ modalOpen, setModalOpen }: Props) => {
         setLoading(true);
         if (!hasError()) {
             await addCar(values);
-            getCarsAndCallReset();
+            getCarsAndResetValues();
         }
         setLoading(false);
     };

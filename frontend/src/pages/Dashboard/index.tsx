@@ -7,7 +7,7 @@ import DeleteCar from "components/Modals/DeleteCar";
 import * as S from "./styles";
 
 const Dashboard = () => {
-    const { cars, page, setPage, rowsPerPage, setRowsPerPage } = useDashboardContext();
+    const { cars, page, setPage, rowsPerPage, setRowsPerPage, alert, resetAlert } = useDashboardContext();
     const [modalOpenAdd, setModalOpenAdd] = useState(false);
     const [modalOpenDelete, setModalOpenDelete] = useState(false);
 
@@ -22,6 +22,14 @@ const Dashboard = () => {
             >
                 Adicionar carro
             </S.AddButton>
+
+            {alert.open && (
+                <S.AlertContainer>
+                    <Alert variant="outlined" severity={alert.severity} onClose={resetAlert}>
+                        {alert.message}
+                    </Alert>
+                </S.AlertContainer>
+            )}
 
             {cars.length > 0 ? (
                 <>

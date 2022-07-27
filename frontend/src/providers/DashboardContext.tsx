@@ -9,7 +9,10 @@ type DashboardContextType = {
     setPage: Dispatch<SetStateAction<number>>;
     rowsPerPage: number;
     setRowsPerPage: Dispatch<SetStateAction<number>>;
+    alert: Alert;
+    setAlert: Dispatch<SetStateAction<Alert>>;
     getCars: () => Promise<void>;
+    resetAlert: () => void;
 };
 
 type DashboardContextProviderProps = {
@@ -23,7 +26,10 @@ const initialValue = {
     setPage: () => {},
     rowsPerPage: 10,
     setRowsPerPage: () => {},
-    getCars: () => Promise.resolve()
+    alert: { open: false, message: "", severity: "" },
+    setAlert: () => {},
+    getCars: () => Promise.resolve(),
+    resetAlert: () => {}
 };
 
 export const DashboardContext = createContext<DashboardContextType>(initialValue);
@@ -32,10 +38,15 @@ export const DashboardContextProvider = ({ children }: DashboardContextProviderP
     const [cars, setCars] = useState<Car[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [alert, setAlert] = useState<Alert>({ open: false, message: "", severity: "" });
 
     const getCars = async () => {
         const response = await API.get("/cars");
         setCars(response.data);
+    };
+
+    const resetAlert = () => {
+        setAlert({ open: false, message: "", severity: "" });
     };
 
     useEffect(() => {
@@ -43,7 +54,9 @@ export const DashboardContextProvider = ({ children }: DashboardContextProviderP
     }, []);
 
     return (
-        <DashboardContext.Provider value={{ cars, setCars, page, setPage, rowsPerPage, setRowsPerPage, getCars }}>
+        <DashboardContext.Provider
+            value={{ cars, setCars, page, setPage, rowsPerPage, setRowsPerPage, alert, setAlert, getCars, resetAlert }}
+        >
             {children}
         </DashboardContext.Provider>
     );

@@ -5,6 +5,10 @@ export const AddButton = styled(Button)({
     margin: "16px 0px"
 });
 
+export const AlertContainer = styled.div({
+    marginBottom: "16px"
+});
+
 export const TableContainer = styled(TableContainerMui)({
     width: "100%",
     height: "100%",
