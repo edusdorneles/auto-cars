@@ -31,7 +31,7 @@ export const ModalAlerts = styled("div")({
     width: "100%",
     marginBottom: "8px",
     display: "flex",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center"
 });
 

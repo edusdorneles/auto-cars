@@ -48,7 +48,7 @@ const Dashboard = () => {
 
                     <TableBody>
                         {cars.map((car: Car) => (
-                            <TableRow>
+                            <TableRow key={car.id}>
                                 <TableCell>{car.name}</TableCell>
                                 <TableCell>{car.color}</TableCell>
                                 <TableCell>{car.year}</TableCell>
@@ -92,7 +92,7 @@ const Dashboard = () => {
                 }}
             />
 
-            <AddCar modalOpen={modalOpenAdd} setModalOpen={setModalOpenAdd} />
+            <AddCar modalOpen={modalOpenAdd} setModalOpen={setModalOpenAdd} getCars={getCars} />
         </Layout>
     );
 };

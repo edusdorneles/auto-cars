@@ -1,21 +1,81 @@
 import React, { useState } from "react";
 import { Modal, Typography, Button } from "@mui/material";
+import { priceFormat, yearFormat } from "helpers/numberFormat";
+import { addCar } from "services/CarService";
 import * as S from "./styles";
 
 type Props = {
     modalOpen: boolean;
     setModalOpen: (modalOpen: boolean) => void;
+    getCars: () => Promise<void>;
 };
 
-export const AddCar = ({ modalOpen, setModalOpen }: Props) => {
-    const [values, setValues] = useState({ carName: "", carColor: "", carYear: "", carPrice: "" });
+export const AddCar = ({ modalOpen, setModalOpen, getCars }: Props) => {
+    const [values, setValues] = useState<Car>({ name: "", color: "", year: "", price: "" });
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+
+    const resetValuesAndCloseModal = () => {
+        setModalOpen(false);
+        setValues({ name: "", color: "", year: "", price: "" });
+        setError("");
+        setSuccess("");
+    };
+
+    const getCarsAndCallReset = async () => {
+        await getCars();
+
+        setTimeout(() => {
+            resetValuesAndCloseModal();
+        }, 1000);
+    };
+
+    const hasError = () => {
+        if (!values.name) {
+            setError("Name is required.");
+            return true;
+        }
+
+        if (!values.color) {
+            setError("Color is required.");
+            return true;
+        }
+
+        if (!values.year) {
+            setError("Year is required.");
+            return true;
+        }
+
+        if (values.year.length < 4) {
+            setError("Year must be 4 digits.");
+            return true;
+        }
+
+        if (!values.price) {
+            setError("Price is required.");
+            return true;
+        }
+
+        setError("");
+        return false;
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setLoading(true);
-        console.log("Em desenvolvimento!");
+        if (!hasError()) {
+            const response = await addCar(values);
+
+            if (response.status === 200) {
+                setSuccess("Carro adicionado com sucesso.");
+            } else {
+                setError("Ocorreu algum erro.");
+            }
+
+            getCarsAndCallReset();
+        }
         setLoading(false);
     };
 
@@ -32,42 +92,55 @@ export const AddCar = ({ modalOpen, setModalOpen }: Props) => {
 
                 <S.ModalForm onSubmit={handleSubmit}>
                     <S.ModalTextField
-                        name="carName"
+                        name="name"
                         label="Nome:"
                         variant="outlined"
                         size="small"
-                        value={values.carName}
+                        value={values.name}
                         onChange={handleChange}
                     />
 
                     <S.ModalTextField
-                        name="carColor"
+                        name="color"
                         label="Cor:"
                         variant="outlined"
                         size="small"
-                        value={values.carColor}
+                        value={values.color}
                         onChange={handleChange}
                     />
 
                     <S.ModalTextField
-                        name="carYear"
+                        name="year"
                         label="Ano:"
                         variant="outlined"
                         size="small"
-                        value={values.carYear}
+                        value={yearFormat(values.year)}
                         onChange={handleChange}
                         type="number"
                     />
 
                     <S.ModalTextField
-                        name="carPrice"
+                        name="price"
                         label="Preço:"
                         variant="outlined"
                         size="small"
-                        value={values.carPrice}
+                        value={priceFormat(values.price)}
                         onChange={handleChange}
-                        type="number"
                     />
+
+                    <S.ModalAlerts>
+                        {error && (
+                            <Typography variant="body2" color="error">
+                                {error}
+                            </Typography>
+                        )}
+
+                        {success && (
+                            <Typography variant="body2" color="success.main">
+                                {success}
+                            </Typography>
+                        )}
+                    </S.ModalAlerts>
 
                     <S.ModalButtons>
                         <Button variant="contained" color="primary" size="small" type="submit" disabled={loading}>

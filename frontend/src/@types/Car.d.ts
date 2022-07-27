@@ -1,7 +1,7 @@
 interface Car {
-    id: string;
+    id?: string;
     name: string;
-    year: number;
+    year: string;
     color: string;
     price: string;
 }
