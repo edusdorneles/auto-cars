@@ -9,7 +9,7 @@ export const userLogin = (req: Request, res: Response) => {
     const user: User | null = queryFindUserByEmailAndPassword(email, password);
 
     if (!user) {
-        return res.status(401).json({ msg: "User not found" });
+        return res.status(401).json({ msg: "Usuário não encontrado." });
     }
 
     res.status(200).json(user);

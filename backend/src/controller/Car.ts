@@ -20,7 +20,7 @@ export const getCarById = (req: Request, res: Response) => {
     const foundCar = queryFindCarById(req.params.id);
 
     if (!foundCar) {
-        res.status(404).json({ msg: "Car not found" });
+        res.status(404).json({ msg: "Carro não encontrado." });
     }
 
     res.status(200).json(foundCar);
@@ -29,20 +29,8 @@ export const getCarById = (req: Request, res: Response) => {
 export const addCar = (req: Request, res: Response) => {
     const { name, year, color, price } = req.body;
 
-    if (!name) {
-        res.status(400).json({ msg: "Name is required" });
-    }
-
-    if (!year) {
-        res.status(400).json({ msg: "Year is required" });
-    }
-
-    if (!color) {
-        res.status(400).json({ msg: "Color is required" });
-    }
-
-    if (!price) {
-        res.status(400).json({ msg: "Price is required" });
+    if (!name || !year || !color || !price) {
+        res.status(400).json({ msg: "Dados incompletos." });
     }
 
     const newCar = queryAddCar({
@@ -60,20 +48,8 @@ export const updateCar = (req: Request, res: Response) => {
     const { id } = req.params;
     const { name, year, color, price } = req.body;
 
-    if (!name) {
-        res.status(400).json({ msg: "Name is required" });
-    }
-
-    if (!year) {
-        res.status(400).json({ msg: "Year is required" });
-    }
-
-    if (!color) {
-        res.status(400).json({ msg: "Color is required" });
-    }
-
-    if (!price) {
-        res.status(400).json({ msg: "Price is required" });
+    if (!id || !name || !year || !color || !price) {
+        res.status(400).json({ msg: "Dados incompletos." });
     }
 
     const updatedCar = queryUpdateCar({
@@ -92,5 +68,5 @@ export const deleteCar = (req: Request, res: Response) => {
 
     queryDeleteCar(id);
 
-    res.status(200).json({ msg: "Car deleted" });
+    res.status(200).json({ msg: "Carro deletado com sucesso." });
 };

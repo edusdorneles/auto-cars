@@ -16,7 +16,7 @@ const DeleteCar = ({ modalOpen, setModalOpen, carId }: Props) => {
 
     const getCarsAndCloseModal = async () => {
         setModalOpen(false);
-        setAlert({ open: true, message: "Car deleted successfully", severity: "success" });
+        setAlert({ open: true, message: "Carro deletado com sucesso.", severity: "success" });
         await getCars();
     };
 

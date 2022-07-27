@@ -19,38 +19,22 @@ const AddCar = ({ modalOpen, setModalOpen }: Props) => {
     const getCarsAndResetValues = async () => {
         setModalOpen(false);
         setValues({ name: "", color: "", year: "", price: "" });
-        setAlert({ open: true, message: "Car added successfully", severity: "success" });
+        setAlert({ open: true, message: "Carro adicionado com sucesso.", severity: "success" });
         setError("");
         await getCars();
     };
 
     const hasError = () => {
-        if (!values.name) {
-            setError("Name is required.");
-            return true;
-        }
-
-        if (!values.color) {
-            setError("Color is required.");
-            return true;
-        }
-
-        if (!values.year) {
-            setError("Year is required.");
+        if (!values.name || !values.color || !values.year || !values.price) {
+            setError("Preencha todos os campos");
             return true;
         }
 
         if (values.year.length < 4) {
-            setError("Year must be 4 digits.");
+            setError("Ano deve ter no mínimo 4 dígitos.");
             return true;
         }
 
-        if (!values.price) {
-            setError("Price is required.");
-            return true;
-        }
-
-        setError("");
         return false;
     };
 
