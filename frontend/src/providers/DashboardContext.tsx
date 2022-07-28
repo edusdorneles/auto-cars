@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useContext, SetStateAction, Dispatch } from "react";
-import API from "services/API";
+import { getCars } from "services/CarService";
 
 // Types
 type DashboardContextType = {
@@ -11,7 +11,7 @@ type DashboardContextType = {
     setRowsPerPage: Dispatch<SetStateAction<number>>;
     alert: Alert;
     setAlert: Dispatch<SetStateAction<Alert>>;
-    getCars: () => Promise<void>;
+    getCarsData: () => Promise<void>;
     resetAlert: () => void;
 };
 
@@ -28,7 +28,7 @@ const initialValue = {
     setRowsPerPage: () => {},
     alert: { open: false, message: "", severity: "" },
     setAlert: () => {},
-    getCars: () => Promise.resolve(),
+    getCarsData: () => Promise.resolve(),
     resetAlert: () => {}
 };
 
@@ -40,8 +40,8 @@ export const DashboardContextProvider = ({ children }: DashboardContextProviderP
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [alert, setAlert] = useState<Alert>({ open: false, message: "", severity: "" });
 
-    const getCars = async () => {
-        const response = await API.get("/cars");
+    const getCarsData = async () => {
+        const response = await getCars();
         setCars(response.data);
     };
 
@@ -50,12 +50,23 @@ export const DashboardContextProvider = ({ children }: DashboardContextProviderP
     };
 
     useEffect(() => {
-        getCars();
+        getCarsData();
     }, []);
 
     return (
         <DashboardContext.Provider
-            value={{ cars, setCars, page, setPage, rowsPerPage, setRowsPerPage, alert, setAlert, getCars, resetAlert }}
+            value={{
+                cars,
+                setCars,
+                page,
+                setPage,
+                rowsPerPage,
+                setRowsPerPage,
+                alert,
+                setAlert,
+                getCarsData,
+                resetAlert
+            }}
         >
             {children}
         </DashboardContext.Provider>

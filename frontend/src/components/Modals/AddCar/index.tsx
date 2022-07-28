@@ -11,7 +11,7 @@ type Props = {
 };
 
 const AddCar = ({ modalOpen, setModalOpen }: Props) => {
-    const { setAlert, getCars } = useDashboardContext();
+    const { setAlert, getCarsData } = useDashboardContext();
     const [values, setValues] = useState<Car>({ name: "", color: "", year: "", price: "" });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -21,7 +21,7 @@ const AddCar = ({ modalOpen, setModalOpen }: Props) => {
         setValues({ name: "", color: "", year: "", price: "" });
         setAlert({ open: true, message: "Carro adicionado com sucesso.", severity: "success" });
         setError("");
-        await getCars();
+        await getCarsData();
     };
 
     const hasError = () => {

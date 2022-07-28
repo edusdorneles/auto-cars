@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { useAuthContext } from "providers/AuthContext";
-import API from "services/API";
 import * as S from "./styles";
 
 const Login = () => {
     const navigate = useNavigate();
-    const { setUser, setIsAuthenticated } = useAuthContext();
+    const { loginUser } = useAuthContext();
     const [login, setLogin] = useState({ email: "", password: "" });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -19,18 +18,11 @@ const Login = () => {
         });
     };
 
-    const LoginAndSetUser = async () => {
-        const response = await API.post("/users", login);
-        setUser(response.data);
-        setIsAuthenticated(true);
-        sessionStorage.setItem("@auto-cars:user", JSON.stringify(response.data));
-    };
-
     const handleSubmit = async () => {
         setLoading(true);
 
         try {
-            await LoginAndSetUser();
+            await loginUser(login.email, login.password);
             navigate("/dashboard");
         } catch (error: any) {
             setError(error.response.data.msg);

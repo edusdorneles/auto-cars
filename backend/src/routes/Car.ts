@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { verifyToken } from "../middleware/VerifyToken";
 import {
     getAllCars,
     getCarById,
@@ -10,10 +11,10 @@ import {
 
 const carRouter = Router();
 
-carRouter.get("/", getAllCars);
-carRouter.get("/:id", getCarById);
-carRouter.post("/", addCar);
-carRouter.put("/:id", updateCar);
-carRouter.delete("/:id", deleteCar);
+carRouter.get("/", verifyToken, getAllCars);
+carRouter.get("/:id", verifyToken, getCarById);
+carRouter.post("/", verifyToken, addCar);
+carRouter.put("/:id", verifyToken, updateCar);
+carRouter.delete("/:id", verifyToken, deleteCar);
 
 export default carRouter;
